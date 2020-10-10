@@ -1,2 +1,4 @@
 import './scss/index.scss'
-console.log('work!')
+import html from './index.html';
+
+console.log('work!', html)
