@@ -25,9 +25,6 @@ const jsLoaders = () => {
   return loaders
 }
 
-console.log(isProd, 'прод')
-console.log(isDev, 'дев')
-
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',

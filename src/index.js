@@ -1,4 +1,10 @@
 import './scss/index.scss'
-import html from './index.html';
+import './index.html';
+import { Excel } from './components/Excel/Excel';
 
-console.log('work!', html)
+// Будем страртовать приложение так
+const exel = new Excel('#app', {
+  components: [],
+})
+
+console.log(exel)
