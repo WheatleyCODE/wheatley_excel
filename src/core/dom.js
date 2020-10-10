@@ -2,10 +2,44 @@
 // Свой jQuery => WheatleyJQuery => WjQuery
 
 class Dom {
+  constructor(selector) {
+    // Проверяем что такое селектор строка или элемент => запихиваем в this.$el
+    this.$el = typeof selector === 'string'
+      ? document.querySelector(selector)
+      : selector
+  }
+
+  html(html) {
+    // Метод внедряющий html в елемент
+    if (typeof html === 'string') {
+      this.$el.innerHTML = html
+      // ↓ Возвращаем Dom для возможности чейнить методы (Один из паттернов JS)
+      return this
+    }
+    return this.$el.outerHTML.trim()
+  }
+
+  clear() {
+    this.html('')
+    // ↓ Возвращаем Dom для возможности чейнить методы (Один из паттернов JS)
+    return this
+  }
+
+  append(node) {
+    if (node instanceof Dom) {
+      node = node.$el
+    }
+    if (Element.prototype.append) {
+      this.$el.append(node)
+    } else {
+      this.$el.appendChild(node)
+    }
+    return this
+  }
 }
 
-export function $() {
-  return new Dom()
+export function $(selector) {
+  return new Dom(selector)
 }
 
 $.create = (tagName, classes = '') => {
@@ -13,5 +47,6 @@ $.create = (tagName, classes = '') => {
   if (classes) {
     el.classList.add(classes)
   }
-  return el
+  // ↓ Оборачиваем результат для возможности чейнить методы
+  return $(el)
 }

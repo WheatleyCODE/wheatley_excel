@@ -9,7 +9,8 @@
     "linebreak-style": [0, "error", "windows"],
     "semi": "off",
     "require-jsdoc": "off",
-    "object-curly-spacing": [2, "always"]
+    "object-curly-spacing": [2, "always"],
+    "operator-linebreak": "off"
   },
    "extends": ["eslint:recommended", "google"]
 }

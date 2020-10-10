@@ -5,7 +5,7 @@ export class Excel {
   // Общая логика для всех компонентов Excel
   constructor(selector, option) {
     // Получаем наш коревой элемент
-    this.$el = document.querySelector(selector)
+    this.$el = $(selector)
     // Получаем массив всех компонентов для отображения
     this.components = option.components || []
   }
@@ -20,7 +20,7 @@ export class Excel {
       const $el = $.create('div', Component.className)
 
       const component = new Component($el)
-      $el.innerHTML = component.toHTML()
+      $el.html(component.toHTML())
       $root.append($el)
     });
     return $root
