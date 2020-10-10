@@ -1,3 +1,5 @@
+import { $ } from '@core/dom'
+
 export class Excel {
   // Компонент хранящий/отображающий другие компоненты
   // Общая логика для всех компонентов Excel
@@ -10,14 +12,16 @@ export class Excel {
 
   getRoot() {
     // Создаём корневой элемент
-    const $root = document.createElement('div')
-    $root.className = 'root'
+    const $root = $.create('div', 'excel')
 
     // Пробегаемся по нашим классам >> превращаем их в инстансы
     // >> добавляем их шаблоны в корневой элемент
     this.components.forEach((Component) => {
-      const component = new Component()
-      $root.insertAdjacentHTML('afterbegin', component.toHTML())
+      const $el = $.create('div', Component.className)
+
+      const component = new Component($el)
+      $el.innerHTML = component.toHTML()
+      $root.append($el)
     });
     return $root
   }
