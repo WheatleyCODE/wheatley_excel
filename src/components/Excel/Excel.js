@@ -11,6 +11,7 @@ export class Excel {
   getRoot() {
     // Создаём корневой элемент
     const $root = document.createElement('div')
+    $root.className = 'root'
 
     // Пробегаемся по нашим классам >> превращаем их в инстансы
     // >> добавляем их шаблоны в корневой элемент
@@ -25,5 +26,6 @@ export class Excel {
     // Добавляем корневой элемент с шаблонами в наш <div id="app"></div>
     console.log(this.$el)
     this.$el.append(this.getRoot())
+    console.log(this.$el)
   }
 }
