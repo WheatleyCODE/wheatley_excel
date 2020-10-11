@@ -1,4 +1,15 @@
 import './scss/index.scss'
-import html from './index.html';
+import './index.html';
+import { Excel } from './components/Excel/Excel';
+import { Header } from './components/Header/Header';
+import { Toolbar } from './components/Toolbar/Toolbar';
+import { Formula } from './components/Formula/Formula';
+import { Table } from './components/Table/Table';
+// import { Footer } from './components/Footer/Footer';
 
-console.log('work!', html)
+// Будем страртовать приложение так
+const excel = new Excel('#app', {
+  components: [Header, Toolbar, Formula, Table],
+})
+
+excel.render()

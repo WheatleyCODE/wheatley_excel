@@ -1,4 +1,4 @@
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -15,6 +15,7 @@ const jsLoaders = () => {
       loader: 'babel-loader',
       options: {
         presets: ['@babel/preset-env'],
+        plugins: ['@babel/plugin-proposal-class-properties'],
       },
     },
   ]
@@ -24,9 +25,6 @@ const jsLoaders = () => {
   }
   return loaders
 }
-
-console.log(isProd, 'прод')
-console.log(isDev, 'дев')
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
