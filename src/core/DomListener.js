@@ -31,10 +31,16 @@ export class DomListener {
       // addEventListener
       // Привязываем к корневому элменту текущего Component потомка (Header и тд...)
       // его же методы (Заранее созданные) (onInput, onClick, onBlaBlaBla)
-      this.$root.on(listener, this[method].bind(this))
+      this[method] = this[method].bind(this)
+      this.$root.on(listener, this[method])
     })
   }
-  removeDOMListeners() {}
+  removeDOMListeners() {
+    this.listeners.forEach((listener) => {
+      const method = getMethodName(listener)
+      this.$root.off(listener, this[method])
+    })
+  }
 }
 
 function getMethodName(eventName) {

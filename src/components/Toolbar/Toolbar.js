@@ -4,6 +4,13 @@ export class Toolbar extends Component {
   // Компонент Панели инструментов
   static className = 'excel__toolbar'
 
+  constructor($root) {
+    super($root, {
+      name: 'ToolBar',
+      listeners: ['click'],
+    })
+  }
+
 
   toHTML() {
     return `
@@ -31,5 +38,9 @@ export class Toolbar extends Component {
         <i class="material-icons">format_underlined</i>
       </div>
     `
+  }
+
+  onClick(event) {
+    console.log('Click Toolbar', event.target)
   }
 }

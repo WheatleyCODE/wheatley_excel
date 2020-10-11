@@ -35,5 +35,6 @@ export class Excel {
     console.log(this.components)
 
     this.components.forEach((component) => component.init())
+    // this.components.forEach((component) => component.destroy())
   }
 }
