@@ -16,12 +16,13 @@ export class Excel {
 
     // Пробегаемся по нашим классам >> превращаем их в инстансы
     // >> добавляем их шаблоны в корневой элемент
-    this.components.forEach((Component) => {
+    this.components = this.components.map((Component) => {
       const $el = $.create('div', Component.className)
 
       const component = new Component($el)
       $el.html(component.toHTML())
       $root.append($el)
+      return component
     });
     return $root
   }
@@ -31,5 +32,8 @@ export class Excel {
     console.log(this.$el)
     this.$el.append(this.getRoot())
     console.log(this.$el)
+    console.log(this.components)
+
+    this.components.forEach((component) => component.init())
   }
 }
