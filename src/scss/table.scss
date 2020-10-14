@@ -71,7 +71,7 @@
     background-color: $color_blue;
     opacity: 0;
     &:hover {
-      opacity: 1;
+      opacity: 1 !important;
     }
   }
 
