@@ -1,4 +1,5 @@
 import { $ } from '@core/dom'
+import { Emitter } from '@core/Emitter'
 
 export class Excel {
   // Компонент хранящий/отображающий другие компоненты
@@ -8,18 +9,27 @@ export class Excel {
     this.$el = $(selector)
     // Получаем массив всех компонентов для отображения
     this.components = option.components || []
+
+    // Некий хук который будет вызываться до рендера таблицы
+    // (Вспоминаем реакт =D )
+
+    this.emitter = new Emitter
   }
 
   getRoot() {
     // Создаём корневой элемент
     const $root = $.create('div', 'excel')
 
+    const componentOptions = {
+      emitter: this.emitter,
+    }
+
     // Пробегаемся по нашим классам >> превращаем их в инстансы
     // >> добавляем их шаблоны в корневой элемент
     this.components = this.components.map((Component) => {
       const $el = $.create('div', Component.className)
 
-      const component = new Component($el)
+      const component = new Component($el, componentOptions)
       $el.html(component.toHTML())
       $root.append($el)
       return component
@@ -36,5 +46,9 @@ export class Excel {
 
     this.components.forEach((component) => component.init())
     // this.components.forEach((component) => component.destroy())
+  }
+
+  destroy() {
+    this.components.forEach((components) => components.destroy())
   }
 }

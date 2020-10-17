@@ -19,6 +19,14 @@ class Dom {
     return this.$el.outerHTML.trim()
   }
 
+  text(text) {
+    if (typeof text ==='string') {
+      this.$el.textContent = text
+      return this
+    }
+    return this.$el.textContent
+  }
+
   clear() {
     this.html('')
     // ↓ Возвращаем Dom для возможности чейнить методы (Один из паттернов JS)
@@ -62,6 +70,22 @@ class Dom {
 
   findAll(selector) {
     return this.$el.querySelectorAll(selector)
+  }
+  find(selector) {
+    return $(this.$el.querySelector(selector))
+  }
+
+  addClass(className) {
+    this.$el.classList.add(className)
+  }
+  focus(focusElem) {
+    this.$el.focus()
+    // if (focusElem) {
+    //   this.$el.setSelectionRange(focusElem.value.length, focusElem.value.length);
+    // }
+  }
+  removeClass(className) {
+    this.$el.classList.remove(className)
   }
 
   css(styles = {}) {
