@@ -4,10 +4,11 @@ export class Toolbar extends Component {
   // Компонент Панели инструментов
   static className = 'excel__toolbar'
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
       name: 'ToolBar',
       listeners: ['click'],
+      ...options,
     })
   }
 

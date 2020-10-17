@@ -7,6 +7,16 @@ export class Component extends DomListener {
   constructor($root, option = {}) {
     super($root, option.listeners)
     this.name = option.name
+
+    this.emitter = option.emitter
+
+    console.log(this.emitter)
+
+    this.prepare()
+  }
+
+  prepare() {
+    // Вспомогательная логика
   }
 
   // метод возвращающий шаблон для компонентов

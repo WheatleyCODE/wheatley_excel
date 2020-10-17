@@ -60,9 +60,12 @@
 
 
     &.selected {
-      border: none;
-      outline: 2px solid $color_blue;
       z-index: 2;
+      outline: 2px solid $color_blue;
+    }
+
+    &.selectedGroup {
+      background-color: rgba(14, 103, 235, 0.103);
     }
   }
 

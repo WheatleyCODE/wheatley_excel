@@ -11,7 +11,7 @@
     "require-jsdoc": "off",
     "object-curly-spacing": [2, "always"],
     "operator-linebreak": "off",
-    "max-len": ["error", { "code": 90 }]
+    "max-len": ["error", { "code": 120 }]
   },
    "extends": ["eslint:recommended", "google"]
 }
