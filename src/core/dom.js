@@ -20,7 +20,11 @@ class Dom {
   }
 
   text(text) {
-    this.$el.textContent = text
+    if (typeof text ==='string') {
+      this.$el.textContent = text
+      return this
+    }
+    return this.$el.textContent
   }
 
   clear() {
@@ -74,8 +78,11 @@ class Dom {
   addClass(className) {
     this.$el.classList.add(className)
   }
-  focus() {
+  focus(focusElem) {
     this.$el.focus()
+    // if (focusElem) {
+    //   this.$el.setSelectionRange(focusElem.value.length, focusElem.value.length);
+    // }
   }
   removeClass(className) {
     this.$el.classList.remove(className)

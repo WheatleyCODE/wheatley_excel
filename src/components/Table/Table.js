@@ -12,7 +12,7 @@ export class Table extends Component {
   constructor($root, options) {
     super($root, {
       name: 'Table',
-      listeners: ['mousedown', 'keydown'],
+      listeners: ['mousedown', 'keydown', 'input', 'click', 'keyup'],
       ...options,
     })
     this.lastTarget = 'Та самая клетка'
@@ -28,14 +28,19 @@ export class Table extends Component {
     this.lastTarget = $defaultCell
     this.selection.select($defaultCell)
 
-    this.emitter.subscribe('it is working', (text) => {
-      console.log( this.lastTarget)
+    this.$on('formula:input', (text) => {
       this.lastTarget.text(text)
     })
+
+    this.$on('formula:enter', () => {
+      this.lastTarget.focus()
+    })
+
+    this.$emit('table:input', $defaultCell.text())
   }
 
   toHTML() {
-    return createTable(25)
+    return createTable(45)
   }
 
   onMousedown(event) {
@@ -72,6 +77,7 @@ export class Table extends Component {
   }
 
   onKeydown(event) {
+    // console.log('!!!!!!!!!!!!!!!!!!!!!!!')
     const $target = $(event.target)
     const newClick = $target.data.id.split(':')
     let [newRow, newCol] = newClick
@@ -80,5 +86,19 @@ export class Table extends Component {
     const context = this
 
     keyDownLogic($target, event, context, newRow, newCol)
+  }
+
+  onKeyup(event) {
+    this.$emit('table:input', event.target.textContent.trim())
+    const $target = $(event.target)
+    this.lastTarget = $target
+  }
+
+  onInput(event) {
+    this.$emit('table:input', event.target.textContent.trim())
+  }
+
+  onClick(event) {
+    this.$emit('table:input', event.target.textContent.trim())
   }
 }

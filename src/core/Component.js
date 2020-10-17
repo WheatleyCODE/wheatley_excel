@@ -9,6 +9,7 @@ export class Component extends DomListener {
     this.name = option.name
 
     this.emitter = option.emitter
+    this.unsubscribers = [] // Отписки / Отписчики
 
     console.log(this.emitter)
 
@@ -24,11 +25,24 @@ export class Component extends DomListener {
     return ''
   }
 
+  // Интерфейс позволяющий взаимодействовать с эмитором (Паттерн)
+  // Уведомляем слушателей про событие eventName
+  $emit(eventName, ...args) {
+    this.emitter.emit(eventName, ...args)
+  }
+
+  // Подписываемся на событие eventName
+  $on(eventName, fn) {
+    const unsub = this.emitter.subscribe(eventName, fn)
+    this.unsubscribers.push(unsub)
+  }
+
   init() {
     this.initDOMListeners()
   }
 
   destroy() {
     this.removeDOMListeners()
+    this.unsubscribers.forEach((unsub) => unsub())
   }
 }

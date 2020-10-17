@@ -6,34 +6,42 @@ export function keyDownLogic($target, event, context, newRow, newCol) {
   if ($target.data.id) {
     switch (event.key) {
       case 'ArrowUp': {
+        event.preventDefault()
         const elem = context.$root.find(`[data-id="${newRow - 1}:${newCol}"]`)
         if (elem.$el) {
           elem.focus()
           context.selection.select(elem)
+          return elem
         }
       }
         break
       case 'ArrowDown': {
+        event.preventDefault()
         const elem = context.$root.find(`[data-id="${newRow + 1}:${newCol}"]`)
         if (elem.$el) {
           elem.focus()
           context.selection.select(elem)
+          return elem
         }
       }
         break
       case 'ArrowLeft': {
+        event.preventDefault()
         const elem = context.$root.find(`[data-id="${newRow}:${newCol - 1}"]`)
         if (elem.$el) {
           elem.focus()
           context.selection.select(elem)
+          return elem
         }
       }
         break
       case 'ArrowRight': {
+        event.preventDefault()
         const elem = context.$root.find(`[data-id="${newRow}:${newCol + 1}"]`)
         if (elem.$el) {
           elem.focus()
           context.selection.select(elem)
+          return elem
         }
       }
         break

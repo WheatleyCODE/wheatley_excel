@@ -7,8 +7,13 @@ export class Formula extends Component {
   constructor($root, options) {
     super($root, {
       name: 'Formula',
-      listeners: ['input', 'click'],
+      listeners: ['input', 'click', 'keydown'],
       ...options,
+    })
+
+    this.$on('table:input', (textContent) => {
+      const root = $root.find('.input')
+      root.text(textContent)
     })
   }
 
@@ -19,11 +24,15 @@ export class Formula extends Component {
     `
   }
 
+  onKeydown(event) {
+    if (event.key === 'Enter' || event.key === 'Tab') {
+      event.preventDefault()
+      this.$emit('formula:enter')
+    }
+  }
   onInput(event) {
-    // console.log(this.$root)
-    // console.log('onInput Formula', event.target.textContent.trim())
     const text = event.target.textContent.trim()
-    this.emitter.emit('it is working', text)
+    this.$emit('formula:input', text)
   }
 
   onClick(event) {
