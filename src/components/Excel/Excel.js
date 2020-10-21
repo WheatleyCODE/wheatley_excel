@@ -13,6 +13,7 @@ export class Excel {
     // Некий хук который будет вызываться до рендера таблицы
     // (Вспоминаем реакт =D )
 
+    this.store = option.store
     this.emitter = new Emitter
   }
 
@@ -22,6 +23,7 @@ export class Excel {
 
     const componentOptions = {
       emitter: this.emitter,
+      store: this.store,
     }
 
     // Пробегаемся по нашим классам >> превращаем их в инстансы

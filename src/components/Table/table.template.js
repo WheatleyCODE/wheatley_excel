@@ -1,3 +1,4 @@
+
 const CODES = {
   A: 65,
   Z: 90,
@@ -25,7 +26,7 @@ function createCol(el, index) {
 function createRow(content = 'H', index = '') {
   const resizer = index > 0 ? '<div class="row-resize" data-resize="row"></div>' : ''
   return `
-    <div class="row" data-type="resize">
+    <div class="row" data-row="${index}" data-type="resize">
       <div class="row-info">${index}${resizer}</div>
       <div class="row-data">${content}</div>
     </div>

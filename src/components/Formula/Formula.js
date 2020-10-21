@@ -24,6 +24,14 @@ export class Formula extends Component {
     `
   }
 
+  init() {
+    super.init()
+
+    this.$subscribe((state) => {
+      console.log('FormulaState', state)
+    })
+  }
+
   onKeydown(event) {
     if (event.key === 'Enter' || event.key === 'Tab') {
       event.preventDefault()
@@ -36,6 +44,6 @@ export class Formula extends Component {
   }
 
   onClick(event) {
-    console.log('Click Formula', event)
+    // console.log('Click Formula', event)
   }
 }

@@ -3,7 +3,9 @@ import { createTable } from './table.template'
 import { $ } from '@core/dom'
 import { rowResize, colResize } from './table.resize'
 import { TableSelection } from './TableSelection'
-import { isCell, keyDownLogic, shiftUpCellSelect } from './table.functions'
+import { isCell, keyDownLogic, shiftUpCellSelect } from './table.keydown'
+import { colsResizeAC, rowsResizeAC } from '@/redux/actions'
+import { setUserTableSize } from './table.userTableSize'
 
 export class Table extends Component {
   // Компонент Таблицы
@@ -37,10 +39,33 @@ export class Table extends Component {
     })
 
     this.$emit('table:input', $defaultCell.text())
+    this.$subscribe((state) => {
+      console.log('TableState', state)
+    })
+
+    // Проверяем есть ли что-то в сторадже если есть изменяем
+    setUserTableSize(this.$root)
   }
 
   toHTML() {
     return createTable(45)
+  }
+
+  async resizeTableRow($target, $parent, coords) {
+    try {
+      const data = await rowResize($target, $parent, coords)
+      this.$dispatch(rowsResizeAC(data))
+    } catch (e) {
+      console.warn('Resize error', e.message)
+    }
+  }
+  async resizeTableCol($target, $parent, coords, context) {
+    try {
+      const data = await colResize($target, $parent, coords, context)
+      this.$dispatch(colsResizeAC(data))
+    } catch (e) {
+      console.warn('Resize error', e.message)
+    }
   }
 
   onMousedown(event) {
@@ -64,15 +89,18 @@ export class Table extends Component {
       } else {
         this.selection.select($target)
         this.lastTarget = $target
+        this.$dispatch({ type: 'TEST' })
       }
     }
 
     if (event.target.dataset.resize === 'row') {
-      rowResize($target, $parent, coords)
+      // rowResize($target, $parent, coords)
+      this.resizeTableRow($target, $parent, coords)
     }
     if (event.target.dataset.resize === 'col') {
       const context = this
-      colResize($target, $parent, coords, context)
+      // colResize($target, $parent, coords, context)
+      this.resizeTableCol($target, $parent, coords, context)
     }
   }
 
