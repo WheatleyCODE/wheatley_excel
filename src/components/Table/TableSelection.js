@@ -1,3 +1,4 @@
+
 // import { $ } from '@core/dom'
 export class TableSelection {
   // Класс для взаимодейсвия с html и css
@@ -6,11 +7,14 @@ export class TableSelection {
     this.group = []
   }
   // $el = инстанс класса Dom
-  select($el) {
+  select($el, dispatch) {
     // Выбор ячейки
 
     this.clear()
     $el.addClass(TableSelection.className)
+    if (dispatch) {
+      dispatch($el, $el.text())
+    }
     this.group.push(($el))
   }
 

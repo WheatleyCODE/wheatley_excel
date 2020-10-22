@@ -78,11 +78,8 @@ class Dom {
   addClass(className) {
     this.$el.classList.add(className)
   }
-  focus(focusElem) {
+  focus() {
     this.$el.focus()
-    // if (focusElem) {
-    //   this.$el.setSelectionRange(focusElem.value.length, focusElem.value.length);
-    // }
   }
   removeClass(className) {
     this.$el.classList.remove(className)

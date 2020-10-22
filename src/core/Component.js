@@ -13,8 +13,6 @@ export class Component extends DomListener {
     this.unsubscribers = [] // Отписки / Отписчики
     this.storeSub = null
 
-    console.log(this.emitter)
-
     this.prepare()
   }
 
@@ -39,6 +37,7 @@ export class Component extends DomListener {
     this.unsubscribers.push(unsub)
   }
 
+  // Redux
   $dispatch(action) {
     this.store.dispatch(action)
   }

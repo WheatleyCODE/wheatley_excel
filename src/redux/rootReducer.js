@@ -1,4 +1,4 @@
-import { COLS_RESIZE, ROWS_RESIZE } from './constants'
+import { CHANGE_TEXT, COLS_RESIZE, ROWS_RESIZE } from './constants'
 
 export function rootReducer(state, action) {
   switch (action.type) {
@@ -16,6 +16,18 @@ export function rootReducer(state, action) {
       return {
         ...state,
         rowState: prevState,
+      }
+    }
+    case CHANGE_TEXT: {
+      const prevState = state['dataState'] || {}
+      // action.data.text !== ''
+      //   ? prevState[action.data.id] = action.data.text
+      //   : null
+      prevState[action.data.id] = action.data.text
+      return {
+        ...state,
+        currentText: action.data.text,
+        dataState: prevState,
       }
     }
     default: return state

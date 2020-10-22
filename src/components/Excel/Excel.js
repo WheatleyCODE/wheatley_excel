@@ -41,10 +41,7 @@ export class Excel {
 
   render() {
     // Добавляем корневой элемент с шаблонами в наш <div id="app"></div>
-    console.log(this.$el)
     this.$el.append(this.getRoot())
-    console.log(this.$el)
-    console.log(this.components)
 
     this.components.forEach((component) => component.init())
     // this.components.forEach((component) => component.destroy())

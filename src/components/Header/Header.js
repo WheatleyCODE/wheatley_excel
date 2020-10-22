@@ -13,7 +13,6 @@ export class Header extends Component {
   toHTML() {
     return `
       <input type="text" class="input" value="Новая таблица" />
-
         <div>
           <div class="button">
             <i class="material-icons">delete</i>

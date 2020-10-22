@@ -5,7 +5,8 @@ import { rowResize, colResize } from './table.resize'
 import { TableSelection } from './TableSelection'
 import { isCell, keyDownLogic, shiftUpCellSelect } from './table.keydown'
 import { colsResizeAC, rowsResizeAC } from '@/redux/actions'
-import { setUserTableSize } from './table.userTableSize'
+import { setUserTableStoradge } from './table.userTableStoradge'
+import { changeTextAC } from '../../redux/actions'
 
 export class Table extends Component {
   // Компонент Таблицы
@@ -26,12 +27,16 @@ export class Table extends Component {
     super.init()
     this.selection = new TableSelection
 
+    // Проверяем есть ли что-то в сторадже если есть изменяем
+    setUserTableStoradge(this.$root)
+
     const $defaultCell = this.$root.find('[data-id="0:0"]')
     this.lastTarget = $defaultCell
-    this.selection.select($defaultCell)
+    this.selection.select($defaultCell, this.updateTextInStore.bind(this))
 
     this.$on('formula:input', (text) => {
       this.lastTarget.text(text)
+      this.updateTextInStore(this.lastTarget, text)
     })
 
     this.$on('formula:enter', () => {
@@ -40,11 +45,8 @@ export class Table extends Component {
 
     this.$emit('table:input', $defaultCell.text())
     this.$subscribe((state) => {
-      console.log('TableState', state)
+      // console.log('TableState', state)
     })
-
-    // Проверяем есть ли что-то в сторадже если есть изменяем
-    setUserTableSize(this.$root)
   }
 
   toHTML() {
@@ -89,23 +91,26 @@ export class Table extends Component {
       } else {
         this.selection.select($target)
         this.lastTarget = $target
-        this.$dispatch({ type: 'TEST' })
       }
     }
 
     if (event.target.dataset.resize === 'row') {
-      // rowResize($target, $parent, coords)
       this.resizeTableRow($target, $parent, coords)
     }
     if (event.target.dataset.resize === 'col') {
       const context = this
-      // colResize($target, $parent, coords, context)
       this.resizeTableCol($target, $parent, coords, context)
     }
   }
 
+  updateTextInStore(target, text) {
+    this.$dispatch(changeTextAC({
+      id: target.data.id,
+      text: text,
+    }))
+  }
+
   onKeydown(event) {
-    // console.log('!!!!!!!!!!!!!!!!!!!!!!!')
     const $target = $(event.target)
     const newClick = $target.data.id.split(':')
     let [newRow, newCol] = newClick
@@ -113,20 +118,26 @@ export class Table extends Component {
     newCol = +newCol
     const context = this
 
-    keyDownLogic($target, event, context, newRow, newCol)
+    keyDownLogic($target, event, context, newRow, newCol, this.updateTextInStore.bind(this))
   }
 
   onKeyup(event) {
-    this.$emit('table:input', event.target.textContent.trim())
+    // this.$emit('table:input', event.target.textContent.trim())
     const $target = $(event.target)
     this.lastTarget = $target
   }
 
   onInput(event) {
-    this.$emit('table:input', event.target.textContent.trim())
+    // this.$emit('table:input', event.target.textContent.trim())
+    const $target = $(event.target)
+    this.updateTextInStore($target, event.target.textContent.trim())
   }
 
   onClick(event) {
-    this.$emit('table:input', event.target.textContent.trim())
+    // this.$emit('table:input', event.target.textContent.trim())
+    const $target = $(event.target)
+    if ($target.data.id) {
+      this.updateTextInStore($target, event.target.textContent.trim())
+    }
   }
 }

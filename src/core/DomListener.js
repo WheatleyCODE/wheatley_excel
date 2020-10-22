@@ -14,13 +14,12 @@ export class DomListener {
     // Элемент на который в будущем будем вешать прослушку событий
     this.$root = $root
     this.listeners = listeners
-    // console.log(this.$root)
   }
 
   initDOMListeners() {
     this.listeners.forEach((listener) => {
       const method = getMethodName(listener)
-      console.log(method)
+
       // Проверка на соответствие прослушки и метода
       if (!this[method]) {
         throw new Error(`Метода ${method} нет в потомке Component => ${this.name}`)

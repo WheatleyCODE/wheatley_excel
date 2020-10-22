@@ -2,7 +2,7 @@ export function isCell(event) {
   return event.target.dataset.id
 }
 
-export function keyDownLogic($target, event, context, newRow, newCol) {
+export function keyDownLogic($target, event, context, newRow, newCol, dispatch) {
   if ($target.data.id) {
     switch (event.key) {
       case 'ArrowUp': {
@@ -11,6 +11,7 @@ export function keyDownLogic($target, event, context, newRow, newCol) {
         if (elem.$el) {
           elem.focus()
           context.selection.select(elem)
+          dispatch(elem, elem.text())
           return elem
         }
       }
@@ -21,6 +22,7 @@ export function keyDownLogic($target, event, context, newRow, newCol) {
         if (elem.$el) {
           elem.focus()
           context.selection.select(elem)
+          dispatch(elem, elem.text())
           return elem
         }
       }
@@ -31,6 +33,7 @@ export function keyDownLogic($target, event, context, newRow, newCol) {
         if (elem.$el) {
           elem.focus()
           context.selection.select(elem)
+          dispatch(elem, elem.text())
           return elem
         }
       }
@@ -41,6 +44,7 @@ export function keyDownLogic($target, event, context, newRow, newCol) {
         if (elem.$el) {
           elem.focus()
           context.selection.select(elem)
+          dispatch(elem, elem.text())
           return elem
         }
       }
@@ -52,6 +56,7 @@ export function keyDownLogic($target, event, context, newRow, newCol) {
           if (elem.$el) {
             elem.focus()
             context.selection.select(elem)
+            dispatch(elem, elem.text())
           }
         }
       }
@@ -62,6 +67,7 @@ export function keyDownLogic($target, event, context, newRow, newCol) {
         if (elem.$el) {
           elem.focus()
           context.selection.select(elem)
+          dispatch(elem, elem.text())
         }
       }
         break

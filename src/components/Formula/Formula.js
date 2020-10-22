@@ -11,10 +11,11 @@ export class Formula extends Component {
       ...options,
     })
 
-    this.$on('table:input', (textContent) => {
-      const root = $root.find('.input')
-      root.text(textContent)
-    })
+    // this.$on('table:input', (textContent) => {
+    //   const root = $root.find('.input')
+    //   root.text(textContent)
+    // })
+    this.$root = $root
   }
 
   toHTML() {
@@ -28,7 +29,9 @@ export class Formula extends Component {
     super.init()
 
     this.$subscribe((state) => {
-      console.log('FormulaState', state)
+      // console.log('formula few')
+      const root = this.$root.find('.input')
+      root.text(state.currentText)
     })
   }
 
