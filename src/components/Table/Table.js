@@ -6,7 +6,7 @@ import { TableSelection } from './TableSelection'
 import { isCell, keyDownLogic, shiftUpCellSelect } from './table.keydown'
 import { colsResizeAC, rowsResizeAC } from '@/redux/actions'
 import { setUserTableStoradge } from './table.userTableStoradge'
-import { changeStylesAC, changeTextAC } from '../../redux/actions'
+import { applyStylesAC, changeStylesAC, changeTextAC } from '../../redux/actions'
 import { defaultStyles } from '../../stylesConstants'
 
 export class Table extends Component {
@@ -49,9 +49,15 @@ export class Table extends Component {
       // console.log('TableState', state)
     })
     this.$on('toolbar:applyStyle', (style) => {
-      console.log('tableStyle', style)
       this.selection.applyStyle(style)
+      // console.log(this.selection.group)
+      this.$dispatch(applyStylesAC({
+        style,
+        ids: this.selection.selectedIds,
+      }))
+      // this.selectCell(this.lastTarget)
     })
+    $defaultCell.$el.focus()
   }
 
   selectCell($cell, fn) {

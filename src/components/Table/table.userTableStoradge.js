@@ -3,7 +3,7 @@ import { storage } from '@core/utils'
 export function setUserTableStoradge($root) {
   const Table = storage('excel-state')
 
-  if (Table.colState) {
+  if (Table) {
     Object.keys(Table.colState).forEach((id) => {
       const col = $root.findAll(`[data-col="${id}"]`)
       col.forEach((el) => {
@@ -11,7 +11,7 @@ export function setUserTableStoradge($root) {
       })
     })
   }
-  if (Table.rowState) {
+  if (Table) {
     Object.keys(Table.rowState).forEach((id) => {
       const row = $root.find(`[data-row="${id}"]`)
       row.css({
@@ -19,10 +19,16 @@ export function setUserTableStoradge($root) {
       })
     })
   }
-  if (Table.dataState) {
+  if (Table) {
     Object.keys(Table.dataState).forEach((id) => {
       const cell = $root.find(`[data-id="${id}"]`)
       cell.text(Table.dataState[id])
+    })
+  }
+  if (Table) {
+    Object.keys(Table.dataStyles).forEach((id) => {
+      const cell = $root.find(`[data-id="${id}"]`)
+      cell.css(Table.dataStyles[id])
     })
   }
 }

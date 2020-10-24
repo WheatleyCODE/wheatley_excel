@@ -7,6 +7,7 @@ const defaultState = {
   dataState: {}, // Сохраняем значения в ячейках
   currentText: '',
   currentStyles: defaultStyles,
+  dataStyles: {},
 }
 
 export const initialState = storage('excel-state')

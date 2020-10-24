@@ -1,4 +1,4 @@
-import { CHANGE_TEXT, COLS_RESIZE, ROWS_RESIZE, CHANGE_STYLES } from './constants';
+import { CHANGE_TEXT, COLS_RESIZE, ROWS_RESIZE, CHANGE_STYLES, APPLY_STYLE } from './constants';
 
 export function colsResizeAC(data) {
   return {
@@ -26,3 +26,10 @@ export function changeStylesAC(data) {
     data,
   }
 }
+export function applyStylesAC(data) {
+  return {
+    type: APPLY_STYLE,
+    data,
+  }
+}
+

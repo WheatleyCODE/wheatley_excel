@@ -67,6 +67,16 @@ class Dom {
   get data() {
     return this.$el.dataset
   }
+  id(parse) {
+    if (parse) {
+      const parsed = this.id().split(':')
+      return {
+        row: +parsed[0],
+        col: +parsed[1],
+      }
+    }
+    return this.data.id
+  }
 
   getStyle(styles = []) {
     return styles.reduce((res, s) => {

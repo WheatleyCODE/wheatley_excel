@@ -3,6 +3,7 @@ import {
   COLS_RESIZE,
   ROWS_RESIZE,
   CHANGE_STYLES,
+  APPLY_STYLE,
 } from './constants'
 
 export function rootReducer(state, action) {
@@ -36,6 +37,16 @@ export function rootReducer(state, action) {
       return {
         ...state,
         currentStyles: action.data,
+      }
+    }
+    case APPLY_STYLE: {
+      const prevState = state.dataStyles || {}
+      action.data.ids.forEach((id) => {
+        prevState[id] = { ...prevState[id], ...action.data.style }
+      })
+      return {
+        ...state,
+        dataStyles: prevState,
       }
     }
     default: return state
