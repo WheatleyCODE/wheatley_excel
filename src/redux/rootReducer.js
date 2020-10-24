@@ -4,6 +4,7 @@ import {
   ROWS_RESIZE,
   CHANGE_STYLES,
   APPLY_STYLE,
+  CHANGE_TABLE_NAME,
 } from './constants'
 
 export function rootReducer(state, action) {
@@ -47,6 +48,12 @@ export function rootReducer(state, action) {
       return {
         ...state,
         dataStyles: prevState,
+      }
+    }
+    case CHANGE_TABLE_NAME: {
+      return {
+        ...state,
+        tableName: action.data,
       }
     }
     default: return state
