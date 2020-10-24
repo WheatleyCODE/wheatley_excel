@@ -33,4 +33,8 @@ export class TableSelection {
     $target.addClass(TableSelection.className)
     this.group = this.group.concat($elArr)
   }
+
+  applyStyle(style) {
+    this.group.forEach(($el) => $el.css(style))
+  }
 }

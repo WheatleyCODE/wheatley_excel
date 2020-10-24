@@ -7,6 +7,7 @@ import { isCell, keyDownLogic, shiftUpCellSelect } from './table.keydown'
 import { colsResizeAC, rowsResizeAC } from '@/redux/actions'
 import { setUserTableStoradge } from './table.userTableStoradge'
 import { changeTextAC } from '../../redux/actions'
+import { defaultStyles } from '../../stylesConstants'
 
 export class Table extends Component {
   // Компонент Таблицы
@@ -32,7 +33,7 @@ export class Table extends Component {
 
     const $defaultCell = this.$root.find('[data-id="0:0"]')
     this.lastTarget = $defaultCell
-    this.selection.select($defaultCell, this.updateTextInStore.bind(this))
+    this.selectCell($defaultCell, this.updateTextInStore.bind(this))
 
     this.$on('formula:input', (text) => {
       this.lastTarget.text(text)
@@ -47,10 +48,19 @@ export class Table extends Component {
     this.$subscribe((state) => {
       // console.log('TableState', state)
     })
+    this.$on('toolbar:applyStyle', (style) => {
+      console.log('tableStyle', style)
+      this.selection.applyStyle(style)
+    })
+  }
+
+  selectCell($cell, fn) {
+    this.selection.select($cell, fn)
+    console.log($cell.getStyle(Object.keys(defaultStyles)))
   }
 
   toHTML() {
-    return createTable(45)
+    return createTable(20)
   }
 
   async resizeTableRow($target, $parent, coords) {
@@ -89,7 +99,7 @@ export class Table extends Component {
 
         this.selection.selectGroup(selectedCells, $target)
       } else {
-        this.selection.select($target)
+        this.selectCell($target)
         this.lastTarget = $target
       }
     }

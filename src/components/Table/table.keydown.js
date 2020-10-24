@@ -10,7 +10,7 @@ export function keyDownLogic($target, event, context, newRow, newCol, dispatch) 
         const elem = context.$root.find(`[data-id="${newRow - 1}:${newCol}"]`)
         if (elem.$el) {
           elem.focus()
-          context.selection.select(elem)
+          context.selectCell(elem)
           dispatch(elem, elem.text())
           return elem
         }
@@ -21,7 +21,7 @@ export function keyDownLogic($target, event, context, newRow, newCol, dispatch) 
         const elem = context.$root.find(`[data-id="${newRow + 1}:${newCol}"]`)
         if (elem.$el) {
           elem.focus()
-          context.selection.select(elem)
+          context.selectCell(elem)
           dispatch(elem, elem.text())
           return elem
         }
@@ -32,7 +32,7 @@ export function keyDownLogic($target, event, context, newRow, newCol, dispatch) 
         const elem = context.$root.find(`[data-id="${newRow}:${newCol - 1}"]`)
         if (elem.$el) {
           elem.focus()
-          context.selection.select(elem)
+          context.selectCell(elem)
           dispatch(elem, elem.text())
           return elem
         }
@@ -43,7 +43,7 @@ export function keyDownLogic($target, event, context, newRow, newCol, dispatch) 
         const elem = context.$root.find(`[data-id="${newRow}:${newCol + 1}"]`)
         if (elem.$el) {
           elem.focus()
-          context.selection.select(elem)
+          context.selectCell(elem)
           dispatch(elem, elem.text())
           return elem
         }
@@ -55,7 +55,7 @@ export function keyDownLogic($target, event, context, newRow, newCol, dispatch) 
           const elem = context.$root.find(`[data-id="${newRow + 1}:${newCol}"]`)
           if (elem.$el) {
             elem.focus()
-            context.selection.select(elem)
+            context.selectCell(elem)
             dispatch(elem, elem.text())
           }
         }
@@ -66,7 +66,7 @@ export function keyDownLogic($target, event, context, newRow, newCol, dispatch) 
         const elem = context.$root.find(`[data-id="${newRow}:${newCol + 1}"]`)
         if (elem.$el) {
           elem.focus()
-          context.selection.select(elem)
+          context.selectCell(elem)
           dispatch(elem, elem.text())
         }
       }

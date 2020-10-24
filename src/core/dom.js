@@ -68,6 +68,13 @@ class Dom {
     return this.$el.dataset
   }
 
+  getStyle(styles = []) {
+    return styles.reduce((res, s) => {
+      res[s] = this.$el.style[s]
+      return res
+    }, {})
+  }
+
   findAll(selector) {
     return this.$el.querySelectorAll(selector)
   }
