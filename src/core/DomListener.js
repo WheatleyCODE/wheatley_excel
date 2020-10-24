@@ -6,7 +6,6 @@ export class DomListener {
   // 1) Добавление прослушек событий
   // 2) Удаление прослушек событий
 
-
   constructor($root, listeners = []) {
     if (!$root) {
       throw new Error('No $root provided for DomListner')

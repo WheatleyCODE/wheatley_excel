@@ -1,5 +1,4 @@
 
-// import { $ } from '@core/dom'
 export class TableSelection {
   // Класс для взаимодейсвия с html и css
   static className = 'selected'

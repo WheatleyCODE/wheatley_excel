@@ -15,3 +15,7 @@ export function storage(key, data = null) {
   }
   localStorage.setItem(key, JSON.stringify(data))
 }
+
+export function camelToDashCase(str) {
+  return str.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`)
+}

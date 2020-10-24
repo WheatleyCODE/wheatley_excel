@@ -29,22 +29,3 @@ export class Emitter {
     }
   }
 }
-
-// Tests
-// const emitter = new Emitter()
-// const unsub = emitter.subscribe('dmitry', (data) => console.log('Sub', data))
-// emitter.emit('dmitry', 42)
-// emitter.emit('12345678', 42)
-
-// setTimeout(() => {
-//   emitter.emit('dmitry', 'after 2sec')
-// }, 2000)
-
-// setTimeout(() => {
-//   // Отпписываемся
-//   unsub()
-// }, 3000)
-
-// setTimeout(() => {
-//   emitter.emit('dmitry', 'after 4sec')
-// }, 4000)

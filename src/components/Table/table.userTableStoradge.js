@@ -2,6 +2,7 @@ import { storage } from '@core/utils'
 
 export function setUserTableStoradge($root) {
   const Table = storage('excel-state')
+
   if (Table.colState) {
     Object.keys(Table.colState).forEach((id) => {
       const col = $root.findAll(`[data-col="${id}"]`)

@@ -6,7 +6,7 @@ import { TableSelection } from './TableSelection'
 import { isCell, keyDownLogic, shiftUpCellSelect } from './table.keydown'
 import { colsResizeAC, rowsResizeAC } from '@/redux/actions'
 import { setUserTableStoradge } from './table.userTableStoradge'
-import { changeTextAC } from '../../redux/actions'
+import { changeStylesAC, changeTextAC } from '../../redux/actions'
 import { defaultStyles } from '../../stylesConstants'
 
 export class Table extends Component {
@@ -56,7 +56,8 @@ export class Table extends Component {
 
   selectCell($cell, fn) {
     this.selection.select($cell, fn)
-    console.log($cell.getStyle(Object.keys(defaultStyles)))
+    const styles = $cell.getStyle(Object.keys(defaultStyles))
+    this.$dispatch(changeStylesAC(styles))
   }
 
   toHTML() {
@@ -132,19 +133,16 @@ export class Table extends Component {
   }
 
   onKeyup(event) {
-    // this.$emit('table:input', event.target.textContent.trim())
     const $target = $(event.target)
     this.lastTarget = $target
   }
 
   onInput(event) {
-    // this.$emit('table:input', event.target.textContent.trim())
     const $target = $(event.target)
     this.updateTextInStore($target, event.target.textContent.trim())
   }
 
   onClick(event) {
-    // this.$emit('table:input', event.target.textContent.trim())
     const $target = $(event.target)
     if ($target.data.id) {
       this.updateTextInStore($target, event.target.textContent.trim())

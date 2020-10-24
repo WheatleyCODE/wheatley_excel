@@ -56,7 +56,7 @@ export function colResize($resizer, $parent, coords, context) {
         opacity: 0,
       })
       cells.forEach((el) => {
-        el.style.width = delta + 'px' //  Сделать оптимизацию
+        el.style.width = delta + 'px'
       })
       res({
         value: delta,

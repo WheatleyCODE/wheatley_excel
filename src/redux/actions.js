@@ -1,4 +1,4 @@
-import { CHANGE_TEXT, COLS_RESIZE, ROWS_RESIZE } from './constants';
+import { CHANGE_TEXT, COLS_RESIZE, ROWS_RESIZE, CHANGE_STYLES } from './constants';
 
 export function colsResizeAC(data) {
   return {
@@ -17,6 +17,12 @@ export function rowsResizeAC(data) {
 export function changeTextAC(data) {
   return {
     type: CHANGE_TEXT,
+    data,
+  }
+}
+export function changeStylesAC(data) {
+  return {
+    type: CHANGE_STYLES,
     data,
   }
 }

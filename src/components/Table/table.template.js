@@ -1,3 +1,5 @@
+import { camelToDashCase } from '../../core/utils'
+import { defaultStyles } from '../../stylesConstants'
 
 const CODES = {
   A: 65,
@@ -5,8 +7,12 @@ const CODES = {
 }
 
 function createCell(el = '', index, rowNumber) {
+  const styles = Object.keys(defaultStyles)
+      .map((key) => `${camelToDashCase(key)}: ${defaultStyles[key]}`)
+      .join(';')
   return `
     <div class="cell" 
+      style="${styles}"
       data-col="${index}"
       data-row="${rowNumber}"
       data-id="${rowNumber}:${index}"
