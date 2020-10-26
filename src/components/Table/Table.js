@@ -3,7 +3,11 @@ import { createTable } from './table.template'
 import { $ } from '@core/dom'
 import { rowResize, colResize } from './table.resize'
 import { TableSelection } from './TableSelection'
-import { isCell, keyDownLogic, shiftUpCellSelect } from './table.functions'
+import { isCell, keyDownLogic, shiftUpCellSelect } from './table.keydown'
+import { colsResizeAC, rowsResizeAC } from '@/redux/actions'
+import { setUserTableStoradge } from './table.userTableStoradge'
+import { applyStylesAC, changeStylesAC, changeTextAC } from '../../redux/actions'
+import { defaultStyles } from '../../stylesConstants'
 
 export class Table extends Component {
   // Компонент Таблицы
@@ -24,12 +28,16 @@ export class Table extends Component {
     super.init()
     this.selection = new TableSelection
 
+    // Проверяем есть ли что-то в сторадже если есть изменяем
+    setUserTableStoradge(this.$root)
+
     const $defaultCell = this.$root.find('[data-id="0:0"]')
     this.lastTarget = $defaultCell
-    this.selection.select($defaultCell)
+    this.selectCell($defaultCell, this.updateTextInStore.bind(this))
 
     this.$on('formula:input', (text) => {
       this.lastTarget.text(text)
+      this.updateTextInStore(this.lastTarget, text)
     })
 
     this.$on('formula:enter', () => {
@@ -37,10 +45,46 @@ export class Table extends Component {
     })
 
     this.$emit('table:input', $defaultCell.text())
+    this.$subscribe((state) => {
+      // console.log('TableState', state)
+    })
+    this.$on('toolbar:applyStyle', (style) => {
+      this.selection.applyStyle(style)
+      // console.log(this.selection.group)
+      this.$dispatch(applyStylesAC({
+        style,
+        ids: this.selection.selectedIds,
+      }))
+      // this.selectCell(this.lastTarget)
+    })
+    $defaultCell.$el.focus()
+  }
+
+  selectCell($cell, fn) {
+    this.selection.select($cell, fn)
+    const styles = $cell.getStyle(Object.keys(defaultStyles))
+    this.$dispatch(changeStylesAC(styles))
   }
 
   toHTML() {
-    return createTable(45)
+    return createTable(20)
+  }
+
+  async resizeTableRow($target, $parent, coords) {
+    try {
+      const data = await rowResize($target, $parent, coords)
+      this.$dispatch(rowsResizeAC(data))
+    } catch (e) {
+      console.warn('Resize error', e.message)
+    }
+  }
+  async resizeTableCol($target, $parent, coords, context) {
+    try {
+      const data = await colResize($target, $parent, coords, context)
+      this.$dispatch(colsResizeAC(data))
+    } catch (e) {
+      console.warn('Resize error', e.message)
+    }
   }
 
   onMousedown(event) {
@@ -62,22 +106,28 @@ export class Table extends Component {
 
         this.selection.selectGroup(selectedCells, $target)
       } else {
-        this.selection.select($target)
+        this.selectCell($target)
         this.lastTarget = $target
       }
     }
 
     if (event.target.dataset.resize === 'row') {
-      rowResize($target, $parent, coords)
+      this.resizeTableRow($target, $parent, coords)
     }
     if (event.target.dataset.resize === 'col') {
       const context = this
-      colResize($target, $parent, coords, context)
+      this.resizeTableCol($target, $parent, coords, context)
     }
   }
 
+  updateTextInStore(target, text) {
+    this.$dispatch(changeTextAC({
+      id: target.data.id,
+      text: text,
+    }))
+  }
+
   onKeydown(event) {
-    // console.log('!!!!!!!!!!!!!!!!!!!!!!!')
     const $target = $(event.target)
     const newClick = $target.data.id.split(':')
     let [newRow, newCol] = newClick
@@ -85,20 +135,23 @@ export class Table extends Component {
     newCol = +newCol
     const context = this
 
-    keyDownLogic($target, event, context, newRow, newCol)
+    keyDownLogic($target, event, context, newRow, newCol, this.updateTextInStore.bind(this))
   }
 
   onKeyup(event) {
-    this.$emit('table:input', event.target.textContent.trim())
     const $target = $(event.target)
     this.lastTarget = $target
   }
 
   onInput(event) {
-    this.$emit('table:input', event.target.textContent.trim())
+    const $target = $(event.target)
+    this.updateTextInStore($target, event.target.textContent.trim())
   }
 
   onClick(event) {
-    this.$emit('table:input', event.target.textContent.trim())
+    const $target = $(event.target)
+    if ($target.data.id) {
+      this.updateTextInStore($target, event.target.textContent.trim())
+    }
   }
 }

@@ -11,10 +11,11 @@ export class Formula extends Component {
       ...options,
     })
 
-    this.$on('table:input', (textContent) => {
-      const root = $root.find('.input')
-      root.text(textContent)
-    })
+    // this.$on('table:input', (textContent) => {
+    //   const root = $root.find('.input')
+    //   root.text(textContent)
+    // })
+    this.$root = $root
   }
 
   toHTML() {
@@ -22,6 +23,16 @@ export class Formula extends Component {
       <div class="info">fx</div>
       <div class="input" contenteditable spellcheck="false"></div>
     `
+  }
+
+  init() {
+    super.init()
+
+    this.$subscribe((state) => {
+      // console.log('formula few')
+      const root = this.$root.find('.input')
+      root.text(state.currentText)
+    })
   }
 
   onKeydown(event) {
@@ -36,6 +47,6 @@ export class Formula extends Component {
   }
 
   onClick(event) {
-    console.log('Click Formula', event)
+    // console.log('Click Formula', event)
   }
 }

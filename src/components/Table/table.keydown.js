@@ -3,65 +3,35 @@ export function isCell(event) {
 }
 
 export function keyDownLogic($target, event, context, newRow, newCol) {
+  const select = (event, row, col) => {
+    event.preventDefault()
+    const elem = context.$root.find(`[data-id="${row}:${col}"]`)
+    if (elem.$el) {
+      elem.focus()
+      context.selectCell(elem)
+      context.updateTextInStore(elem, elem.text())
+      return elem
+    }
+  }
+
   if ($target.data.id) {
     switch (event.key) {
-      case 'ArrowUp': {
-        event.preventDefault()
-        const elem = context.$root.find(`[data-id="${newRow - 1}:${newCol}"]`)
-        if (elem.$el) {
-          elem.focus()
-          context.selection.select(elem)
-          return elem
-        }
-      }
+      case 'ArrowUp':
+        select(event, newRow - 1, newCol)
         break
-      case 'ArrowDown': {
-        event.preventDefault()
-        const elem = context.$root.find(`[data-id="${newRow + 1}:${newCol}"]`)
-        if (elem.$el) {
-          elem.focus()
-          context.selection.select(elem)
-          return elem
-        }
-      }
+      case 'ArrowDown':
+        select(event, newRow + 1, newCol)
         break
-      case 'ArrowLeft': {
-        event.preventDefault()
-        const elem = context.$root.find(`[data-id="${newRow}:${newCol - 1}"]`)
-        if (elem.$el) {
-          elem.focus()
-          context.selection.select(elem)
-          return elem
-        }
-      }
+      case 'ArrowLeft':
+        select(event, newRow, newCol - 1)
         break
-      case 'ArrowRight': {
-        event.preventDefault()
-        const elem = context.$root.find(`[data-id="${newRow}:${newCol + 1}"]`)
-        if (elem.$el) {
-          elem.focus()
-          context.selection.select(elem)
-          return elem
-        }
-      }
+      case 'Tab':
+      case 'ArrowRight':
+        select(event, newRow, newCol + 1)
         break
       case 'Enter': {
         if (!event.shiftKey) {
-          event.preventDefault()
-          const elem = context.$root.find(`[data-id="${newRow + 1}:${newCol}"]`)
-          if (elem.$el) {
-            elem.focus()
-            context.selection.select(elem)
-          }
-        }
-      }
-        break
-      case 'Tab': {
-        event.preventDefault()
-        const elem = context.$root.find(`[data-id="${newRow}:${newCol + 1}"]`)
-        if (elem.$el) {
-          elem.focus()
-          context.selection.select(elem)
+          select(event, newRow + 1, newCol)
         }
       }
         break

@@ -8,10 +8,10 @@ export class Component extends DomListener {
     super($root, option.listeners)
     this.name = option.name
 
+    this.store = option.store
     this.emitter = option.emitter
     this.unsubscribers = [] // Отписки / Отписчики
-
-    console.log(this.emitter)
+    this.storeSub = null
 
     this.prepare()
   }
@@ -37,6 +37,15 @@ export class Component extends DomListener {
     this.unsubscribers.push(unsub)
   }
 
+  // Redux
+  $dispatch(action) {
+    this.store.dispatch(action)
+  }
+
+  $subscribe(fn) {
+    this.storeSub = this.store.subscribe(fn)
+  }
+
   init() {
     this.initDOMListeners()
   }
@@ -44,5 +53,6 @@ export class Component extends DomListener {
   destroy() {
     this.removeDOMListeners()
     this.unsubscribers.forEach((unsub) => unsub())
+    this.store.unsubscribe()
   }
 }

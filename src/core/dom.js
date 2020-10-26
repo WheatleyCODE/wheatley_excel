@@ -67,6 +67,23 @@ class Dom {
   get data() {
     return this.$el.dataset
   }
+  id(parse) {
+    if (parse) {
+      const parsed = this.id().split(':')
+      return {
+        row: +parsed[0],
+        col: +parsed[1],
+      }
+    }
+    return this.data.id
+  }
+
+  getStyle(styles = []) {
+    return styles.reduce((res, s) => {
+      res[s] = this.$el.style[s]
+      return res
+    }, {})
+  }
 
   findAll(selector) {
     return this.$el.querySelectorAll(selector)
@@ -78,11 +95,8 @@ class Dom {
   addClass(className) {
     this.$el.classList.add(className)
   }
-  focus(focusElem) {
+  focus() {
     this.$el.focus()
-    // if (focusElem) {
-    //   this.$el.setSelectionRange(focusElem.value.length, focusElem.value.length);
-    // }
   }
   removeClass(className) {
     this.$el.classList.remove(className)

@@ -13,6 +13,7 @@ export class Excel {
     // Некий хук который будет вызываться до рендера таблицы
     // (Вспоминаем реакт =D )
 
+    this.store = option.store
     this.emitter = new Emitter
   }
 
@@ -22,6 +23,7 @@ export class Excel {
 
     const componentOptions = {
       emitter: this.emitter,
+      store: this.store,
     }
 
     // Пробегаемся по нашим классам >> превращаем их в инстансы
@@ -39,10 +41,7 @@ export class Excel {
 
   render() {
     // Добавляем корневой элемент с шаблонами в наш <div id="app"></div>
-    console.log(this.$el)
     this.$el.append(this.getRoot())
-    console.log(this.$el)
-    console.log(this.components)
 
     this.components.forEach((component) => component.init())
     // this.components.forEach((component) => component.destroy())
